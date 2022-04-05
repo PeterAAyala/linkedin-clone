@@ -11,6 +11,8 @@ export default function Home() {
       </Head> 
 
       LinkedIn Clone
+      <p>text</p>
+      <h1>test</h1>
     </div>
   )
 }
