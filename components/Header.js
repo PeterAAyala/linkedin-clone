@@ -9,13 +9,28 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import AppsOutlinedIcon from "@mui/icons-material/AppsOutlined";
 import { Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
 function Header() {
+    const [mounted, setMounted] = useState(false);
+    const { setTheme, resolvedTheme, theme } = useTheme();
+
+    useEffect(() => setMounted(true), []);
+
     return (
-        <header>
+        <header className="sticky top-0 z-40 bg-white dark:bg-[#1D2226] flex items-center justify-around py-1.5 px-3 focus-within:shadow-lg">
             {/*Left*/}
             <div className="flex items-center space-x-2 w-full max-w-xs">
-                <Image src ="https://rb.gy/bizvqj" width={45} height={45}/>
+                {mounted && (
+                    <>
+                    {resolvedTheme === "dark" ? (
+                        <Image src ="https://rb.gy/bizvqj" width={45} height={45}/>
+                    ) : (
+                        <Image src ="https://rb.gy/dpmd9s" width={45} height={45}/>
+                    )}
+                    </>
+                )}
+                
                 <div className="flex items-center space-x-1 md:bg-gray-700 py-2.5 px-4 rounded w-full">
                     <SearchRoundedIcon/>
                     <input
@@ -40,6 +55,7 @@ function Header() {
                     `}
                 >
                     <span className="absolute left-0">🌜</span>
+
                     <span className="absolute right-1.5">🌞</span>
                 </div>
             </div>
