@@ -78,8 +78,7 @@ function Home({ providers }) {
             </main>
         </div>
 
-    )
-    ;
+    );
 }
 
 export default Home;

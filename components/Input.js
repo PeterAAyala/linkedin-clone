@@ -54,9 +54,6 @@ function Input() {
             </button>
                 
             </div>
-
-
-            <p>Input</p>
         </div>
     )
 };
