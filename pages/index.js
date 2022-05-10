@@ -8,8 +8,9 @@ import { modalState, modalTypeState } from "../atoms/modalAtom";
 import { useRecoilState } from "recoil";
 import Modal from "../components/Modal";
 import { useRouter } from "next/router";
+import { connectToDatabase } from '../util/mongodb';
 
-export default function Home() {
+export default function Home({ posts }) {
   const { data: session } = useSession();
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [modalType, setModalType] = useRecoilState(modalTypeState);
@@ -22,6 +23,7 @@ export default function Home() {
     },
   });
 
+  console.log(posts);
   
   return (
     <div className='bg-[#F3F2EF] dark:bg-black dark:text-white h-screen overflow-y-scroll md:space-y-6'>
@@ -64,9 +66,21 @@ export async function getServerSideProps(context) {
     };
   }
 
+  const {db} = await connectToDatabase();
+  const posts = await db.collection("posts").find().sort({timestamp: -1}).toArray();
+
   return {
     props: {
       session,
+      posts: posts.map((post) => ({
+        _id: post._id.toString(),
+        input: post.input,
+        photoUrl: post.photoUrl,
+        username: post.username,
+        email: post.email,
+        userImg: post.userImg,
+        createdAt: post.createdAt,
+      }))
     }
   }
 }
