@@ -2,12 +2,13 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
 import { Avatar, IconButton } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { modalState } from "../atoms/modalAtom";
+import { modalState, modalTypeState } from "../atoms/modalAtom";
 import { useState } from "react";
 
 function Post ({ post, modalPost }) {
     const [modalOpen, setModalOpen] = useRecoilState(modalState);
     const [showInput, setShowInput] = useState(false);
+    const [modalType, setModalType] = useRecoilState(modalTypeState);
     
 
 
@@ -44,6 +45,18 @@ function Post ({ post, modalPost }) {
                     )}
                 </div>
             )}
+
+        {post.photoUrl && !modalPost && (
+            <img
+            src={post.photoUrl}
+            alt=""
+            className="w-full cursor-pointer"
+            onClick={() => {
+                setModalOpen(true);
+                setModalType("gifYouUp");
+            }}
+            />
+        )}
         </div>
     )
 }
