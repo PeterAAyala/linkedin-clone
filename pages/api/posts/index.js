@@ -5,9 +5,6 @@ export default async function handler(req, res) {
   const { method, body } = req;
 
   const { db } = await connectToDatabase();
-    console.log("Test1");
-    console.log(db);
-
   if (method === "GET") {
     try {
       const posts = await db

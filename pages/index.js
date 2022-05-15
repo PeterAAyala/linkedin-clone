@@ -9,8 +9,10 @@ import { useRecoilState } from "recoil";
 import Modal from "../components/Modal";
 import { useRouter } from "next/router";
 import { connectToDatabase } from '../util/mongodb';
+import RightSidebar from '../components/RightSidebar';
 
-export default function Home({ posts }) {
+export default function Home({ posts, articles }) {
+  console.log(articles);
   const { data: session } = useSession();
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [modalType, setModalType] = useRecoilState(modalTypeState);
@@ -37,12 +39,10 @@ export default function Home({ posts }) {
 
       <main className="flex justify-center gap-x-5 px-4 sm:px-12">
         <div className="flex flex-col md:flex-row gap-5">
-          
-          {/* <Sidebar/>Sidebar */}
           <Sidebar/>
-          <Feed/>
-          {/* Feed */}
+          <Feed posts = {posts}/>
         </div>
+        <RightSidebar articles={articles}/>
         <AnimatePresence>
           {modalOpen && (
             <Modal handleClose={() => setModalOpen(false)} type={modalType} />
@@ -68,10 +68,12 @@ export async function getServerSideProps(context) {
 
   const {db} = await connectToDatabase();
   const posts = await db.collection("posts").find().sort({timestamp: -1}).toArray();
+  const newsResults = await fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWS_API}`).then((res) => res.json());
 
   return {
     props: {
       session,
+      articles: newsResults.articles,
       posts: posts.map((post) => ({
         _id: post._id.toString(),
         input: post.input,
