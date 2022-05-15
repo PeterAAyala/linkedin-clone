@@ -11,6 +11,7 @@ import ThumbUpOffAltOutlinedIcon from "@mui/icons-material/ThumbUpOffAltOutlined
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import { useSession } from "next-auth/react";
 import TimeAgo from "timeago-react";
+import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded"
 
 
 function Post ({ post, modalPost }) {
